@@ -1,4 +1,0 @@
-repository "The Box/The Box@2474980388723@cloud"
-  path "/"
-    br "/main"
-    co "/main"
