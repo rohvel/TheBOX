@@ -3,7 +3,9 @@ using UnityEngine;
 public class CameraRotation : MonoBehaviour
 {
     public float rotationSpeed = 5f; // Speed of the rotation transition
+    public Level4GameManager gameManagerLevel4;
     private Quaternion targetRotation;
+    private bool canDo = true;
 
     void Start()
     {
@@ -12,19 +14,29 @@ public class CameraRotation : MonoBehaviour
 
     void Update()
     {
+        canDo = true;
+        if (gameManagerLevel4 != null)
+        {
+            if (gameManagerLevel4.UIEnabled == true)
+            {
+                canDo = false;
+            }
+        }
         // Check for Left Arrow key press
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            RotateLeft();
-        }
-        // Check for Right Arrow key press
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            RotateRight();
-        }
+        if (canDo == true) {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                RotateLeft();
+            }
+            // Check for Right Arrow key press
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                RotateRight();
+            }
 
-        // Smoothly interpolate towards the target rotation
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            // Smoothly interpolate towards the target rotation
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
     }
 
     // Public method to rotate the camera left

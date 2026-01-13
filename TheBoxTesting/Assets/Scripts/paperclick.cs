@@ -1,17 +1,21 @@
-using UnityEngine; // needed for Unity
-using UnityEngine.UI; // needed for UI
+using UnityEngine;
+using UnityEngine.UI;
 
 public class PaperClick : MonoBehaviour
 {
-    public GameObject panel; // the popup panel
-    public Text text;        // the text inside the panel
+    public GameObject panel;
+    public Text text;
+    public AudioSource UISFX;
 
     void OnMouseDown()
     {
-        panel.SetActive(true);    // show the panel
+        panel.SetActive(true);
+        if (UISFX != null)
+            UISFX.Play();
     }
+
     public void ClosePanel()
-{
-    panel.SetActive(false);
+    {
+        panel.SetActive(false);
     }
 }

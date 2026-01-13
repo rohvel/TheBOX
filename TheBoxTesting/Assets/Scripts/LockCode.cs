@@ -1,52 +1,60 @@
 using UnityEngine;
-using TMPro;  // needed for TMP input field
+using TMPro;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class LockCode : MonoBehaviour
 {
-    public GameObject panel;         // the lock popup panel
-    public TMP_InputField inputField; // where player types code
-    public string correctCode = "5361";  // the correct code
-    public GameObject successPanel;  // shows when code is right
-    public GameObject failPanel;     // shows when code is wrong
+    public GameObject panel;
+    public TMP_InputField inputField;
+    public string correctCode = "5361";
+    public GameObject successPanel;
+    public GameObject failPanel;
+    public AudioSource CORRECTSFX;
+    public AudioSource INCORRECTSFX;
 
-    public void OpenPanel()  // show the lock panel
+    public void OpenPanel()
     {
         panel.SetActive(true);
     }
 
-    public void ClosePanel()  // hide the lock panel
+    public void ClosePanel()
     {
         panel.SetActive(false);
     }
 
-    public void CheckCode()  // check typed code
+    public void CheckCode()
     {
-        if (inputField.text == correctCode)  // if code correct
+        if (inputField.text == correctCode)
         {
-            panel.SetActive(false);         // hide lock panel
-            successPanel.SetActive(true);   // show success popup
-            failPanel.SetActive(false);   // hide fail popup
-
+            successPanel.SetActive(true);
+            failPanel.SetActive(false);
+            if (CORRECTSFX != null)
+                StartCoroutine(PlayCorrectAndLoad());
         }
-
-
-
-        else  // wrong code
+        else
         {
-            failPanel.SetActive(true);      // show fail popup
-            successPanel.SetActive(false);  // hide success popup
+            failPanel.SetActive(true);
+            successPanel.SetActive(false);
+            if (INCORRECTSFX != null)
+                INCORRECTSFX.Play();
         }
-        }
-        
-    
+    }
 
-    public void CloseSuccessPanel()  // hide success panel
+    IEnumerator PlayCorrectAndLoad()
+    {
+        if (CORRECTSFX != null)
+            CORRECTSFX.Play();
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("Level3");
+    }
 
+    public void CloseSuccessPanel()
     {
         successPanel.SetActive(false);
     }
 
-    public void CloseFailPanel()  // hide fail panel
+    public void CloseFailPanel()
     {
         failPanel.SetActive(false);
     }
